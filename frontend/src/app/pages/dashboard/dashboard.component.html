@@ -1,0 +1,23 @@
+<h1 class="text-2xl font-bold mb-6">Users Dashboard</h1>
+<table class="table-auto w-full">
+  <thead>
+    <tr class="bg-gray-200">
+      <th class="px-4 py-2">Name</th>
+      <th class="px-4 py-2">Email</th>
+      <th class="px-4 py-2">Role</th>
+      <th class="px-4 py-2">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td class="border px-4 py-2">{{ user.firstName }} {{ user.lastName }}</td>
+      <td class="border px-4 py-2">{{ user.email }}</td>
+      <!-- Get roleId from user.role.roleId -->
+      <td class="border px-4 py-2">{{ getRoleName(user.role.roleId) }}</td>
+      <td class="border px-4 py-2">
+        <button class="bg-blue-500 text-white px-2 py-1 rounded">Edit</button>
+        <button class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
