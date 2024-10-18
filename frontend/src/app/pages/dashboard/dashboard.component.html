@@ -1,4 +1,10 @@
-<h1 class="text-2xl font-bold mb-6">Users Dashboard</h1>
+<!-- Add User Button -->
+<div class="flex justify-between mb-4">
+  <h1 class="text-2xl font-bold">Users Dashboard</h1>
+  <button class="bg-blue-500 text-white px-4 py-2 rounded" (click)="openModal(false)">Add User</button>
+</div>
+
+<!-- Users Table -->
 <table class="table-auto w-full">
   <thead>
     <tr class="bg-gray-200">
@@ -12,12 +18,93 @@
     <tr *ngFor="let user of users">
       <td class="border px-4 py-2">{{ user.firstName }} {{ user.lastName }}</td>
       <td class="border px-4 py-2">{{ user.email }}</td>
-      <!-- Get roleId from user.role.roleId -->
       <td class="border px-4 py-2">{{ getRoleName(user.role.roleId) }}</td>
       <td class="border px-4 py-2">
-        <button class="bg-blue-500 text-white px-2 py-1 rounded">Edit</button>
+        <button class="bg-blue-500 text-white px-2 py-1 rounded" (click)="openModal(true, user)">Edit</button>
         <button class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
       </td>
     </tr>
   </tbody>
 </table>
+
+<!-- Modal for Add or Edit User -->
+<div *ngIf="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+  <div class="bg-white p-6 rounded-lg w-3/4">
+    <h2 class="text-xl font-bold mb-4">{{ isEditMode ? 'Edit User' : 'Add User' }}</h2>
+    <form (ngSubmit)="saveUser()">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="userId">User ID</label>
+          <input [(ngModel)]="newUser.id" name="id" type="text" class="w-full border p-2 rounded" required>
+        </div>
+        <div>
+          <label for="firstName">First Name</label>
+          <input [(ngModel)]="newUser.firstName" name="firstName" type="text" class="w-full border p-2 rounded" required>
+        </div>
+        <div>
+          <label for="lastName">Last Name</label>
+          <input [(ngModel)]="newUser.lastName" name="lastName" type="text" class="w-full border p-2 rounded" required>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input [(ngModel)]="newUser.email" name="email" type="email" class="w-full border p-2 rounded" required>
+        </div>
+        <div>
+          <label for="phone">Mobile No</label>
+          <input [(ngModel)]="newUser.phone" name="phone" type="text" class="w-full border p-2 rounded">
+        </div>
+        <div>
+          <label for="role">Select Role Type</label>
+          <select [(ngModel)]="newUser.roleId" name="roleId" class="w-full border p-2 rounded" required>
+            <option *ngFor="let role of roles" [value]="role.roleId">{{ role.roleName }}</option>
+          </select>
+        </div>
+
+        <!-- Username field -->
+        <div>
+          <label for="username">Username</label>
+          <input [(ngModel)]="newUser.username" name="username" type="text" class="w-full border p-2 rounded" required>
+        </div>
+
+        <!-- Password field -->
+        <div>
+          <label for="password">Password</label>
+          <input [(ngModel)]="newUser.password" name="password" type="password" class="w-full border p-2 rounded" required>
+        </div>
+
+        <!-- Confirm Password field -->
+        <div>
+          <label for="confirmPassword">Confirm Password</label>
+          <input [(ngModel)]="newUser.confirmPassword" name="confirmPassword" type="password" class="w-full border p-2 rounded" required>
+        </div>
+      </div>
+
+      <!-- Show all Permissions -->
+      <h3 class="text-lg font-bold mt-4">Module Permission</h3>
+      <table class="w-full mt-2 border">
+        <thead>
+          <tr>
+            <th>Permission</th>
+            <th>Read</th>
+            <th>Write</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let permission of permissions">
+            <td>{{ permission.permissionName }}</td>
+            <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isReadable" name="read_{{permission.permissionId}}"></td>
+            <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isWritable" name="write_{{permission.permissionId}}"></td>
+            <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isDeletable" name="delete_{{permission.permissionId}}"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Save or Add User Button -->
+      <div class="flex justify-end mt-4">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">{{ isEditMode ? 'Save User' : 'Add User' }}</button>
+        <button type="button" class="bg-gray-300 text-black px-4 py-2 ml-2 rounded" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
