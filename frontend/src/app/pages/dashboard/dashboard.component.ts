@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard',
@@ -122,6 +123,31 @@ export class DashboardComponent implements OnInit {
   
   closeModal(): void {
     this.showModal = false;
+  }
+
+  // delete user
+  deleteUser(userId: string): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // if confirm
+        this.http.delete<any>(`https://localhost:7206/api/Users/${userId}`).subscribe(response => {
+          Swal.fire(
+            'Deleted!',
+            'The user has been deleted.',
+            'success'
+          );
+          this.loadUsers(); 
+        });
+      }
+    });
   }
 
   selectHighestPermission(): any[] {

@@ -21,7 +21,7 @@
       <td class="border px-4 py-2">{{ getRoleName(user.role.roleId) }}</td>
       <td class="border px-4 py-2">
         <button class="bg-blue-500 text-white px-2 py-1 rounded" (click)="openModal(true, user)">Edit</button>
-        <button class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+        <button class="bg-red-500 text-white px-2 py-1 rounded" (click)="deleteUser(user.userId)">Delete</button>
       </td>
     </tr>
   </tbody>
