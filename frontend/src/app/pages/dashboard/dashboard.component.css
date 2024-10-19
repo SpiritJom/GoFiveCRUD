@@ -1,0 +1,66 @@
+/* Background color for the entire page */
+body {
+  background-color: #f5f5f5;
+}
+
+.w-24 {
+  width: 7rem; /* Ensures the label has a fixed width */
+}
+
+.text-center {
+  text-align: center; /* Centers the text inside the label */
+}
+
+/* Styling for rounded table */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+thead tr:first-child th:first-child {
+  border-top-left-radius: 10px;
+}
+
+thead tr:first-child th:last-child {
+  border-top-right-radius: 10px;
+}
+
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+/* Styling for table wrapper to be rounded */
+/* Apply border-radius only to the top part (header) */
+.header-rounded {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: white; /* Ensure the background matches */
+  }
+  
+  /* Add a slight shadow to the table header for more emphasis */
+  .shadow-header {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for the rest of the table (body) */
+  .bg-white {
+    background-color: white;
+  }
+  
+
+/* Styling for the "List Users" header to integrate with the table */
+.border-b {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.text-lg {
+  font-size: 1.125rem; /* Adjusts the font size for the header */
+}
+
+.font-semibold {
+  font-weight: 600; /* Makes the header bold */
+}

@@ -1,3 +1,5 @@
+<body>
+
 <!-- Top Bar -->
 <div class="flex justify-between items-center p-4">
   <div>
@@ -5,8 +7,10 @@
     <p class="text-gray-500">Have a nice day</p>
   </div>
   <div class="flex items-center space-x-4">
-    <button class="bg-blue-500 text-white px-4 py-2 rounded" (click)="openModal(false)">Add User +</button>
     <!-- Mock Profile Section -->
+    <button class="bg-transparent px-2 py-1">
+      <mat-icon>notifications</mat-icon>
+    </button>
     <div class="flex items-center">
       <img class="w-8 h-8 rounded-full" src="profile-image-url" alt="Profile" />
       <span class="mr-2">Lekan Okeowo</span>
@@ -15,55 +19,74 @@
 </div>
 
 <div class="user-dashboard-text">
-  <h1 class="text-2xl font-bold text-blue-500">Users Dashboard</h1>
+  <h1 class="text-2xl font-bold text-blue-500 mb-2">Users Dashboard</h1>
 </div>
 
 <!-- Search Bar and Sort Options -->
-<div class="flex justify-between items-center bg-white shadow-md p-4">
-  <input [(ngModel)]="searchTerm" (input)="searchUsers()" placeholder="Search" class="border p-2 w-1/3 rounded" />
-
+<div class="flex justify-between items-center p-4 ">
+  <input [(ngModel)]="searchTerm" (input)="searchUsers()" placeholder="Search" class="border p-2 w-3/5 rounded" />
+  <button class="bg-blue-500 text-white px-4 py-2 rounded" (click)="openModal(false)">Add User +</button>
+  
   <div class="flex space-x-4">
     <label>Sort by:</label>
-    <select [(ngModel)]="sortField" (change)="sortUsers(sortField)" class="border p-2 rounded">
+    <select [(ngModel)]="sortField" (change)="sortUsers(sortField)" class="bg-transparent">
       <option value="firstName">Name</option>
       <option value="email">Email</option>
       <option value="role">Role</option>
     </select>
+    <label>Save Search:</label>
   </div>
 </div>
 
+
+
 <!-- Users Table -->
-<table class="table-auto w-full">
-  <thead>
-    <tr class="bg-gray-200">
-      <th class="px-4 py-2">Name</th>
-      <th class="px-4 py-2"></th>
-      <th class="px-4 py-2">Email</th>
-      <th class="px-4 py-2">Role</th>
-      <th class="px-4 py-2">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users">
-      <td class="border px-4 py-2">{{ user.firstName }} {{ user.lastName }}</td>
-      <!-- Permissions Label -->
-      <td class="border px-4 py-2">
-        {{ getPermissionName(user.permissions[0]?.permissionId) }}
-      </td>
-      
-      <td class="border px-4 py-2">{{ user.email }}</td>
-      <td class="border px-4 py-2">{{ getRoleName(user.role.roleId) }}</td>
-      <td class="border px-4 py-2">
-        <button class="bg-transparent text-gray-500 px-2 py-1" (click)="openModal(true, user)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button class="bg-transparent text-gray-500 px-2 py-1" (click)="deleteUser(user.userId)">
-          <mat-icon>delete_outline</mat-icon>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<!-- List Users Table -->
+<div class="bg-white shadow-md rounded-lg overflow-hidden">
+  <!-- Updated header with rounded corners -->
+  <div class="p-2 bg-white header-rounded shadow-header">
+    <h2 class="text-lg font-semibold ml-2">List Users</h2>
+  </div>
+  
+  <table class="table-auto w-full">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="px-4 py-2">Name</th>
+        <th class="px-4 py-2"></th>
+        <th class="px-4 py-2">Email</th>
+        <th class="px-4 py-2">Role</th>
+        <th class="px-4 py-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td class="border px-4 py-2">{{ user.firstName }} {{ user.lastName }}</td>
+        <!-- Permissions Label with dynamic class -->
+        <td class="border px-4 py-2">
+          <span 
+            class="inline-block w-24 text-center px-3 py-1 rounded-full text-white text-sm"
+            [ngClass]="{
+              'bg-blue-500': getPermissionName(user.permissions[0]?.permissionId) !== 'Employee',
+              'bg-gray-400': getPermissionName(user.permissions[0]?.permissionId) === 'Employee'
+            }">
+            {{ getPermissionName(user.permissions[0]?.permissionId) }}
+          </span>
+        </td>
+        <td class="border px-4 py-2">{{ user.email }}</td>
+        <td class="border px-4 py-2">{{ getRoleName(user.role.roleId) }}</td>
+        <td class="border px-4 py-2">
+          <button class="bg-transparent text-gray-500 px-2 py-1" (click)="openModal(true, user)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="bg-transparent text-gray-500 px-2 py-1" (click)="deleteUser(user.userId)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
 
 <!-- Pagination Controls -->
@@ -162,3 +185,4 @@
     </form>
   </div>
 </div>
+</body>
