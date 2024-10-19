@@ -35,6 +35,10 @@ export class DashboardComponent implements OnInit {
   pageSize: number = 6;     // number items of page
   totalUsers: number = 0;   // total users
 
+  searchTerm: string = ''; // Search term
+  sortField: string = 'firstName'; // Default sort field
+  sortDirection: string = 'asc'; // Default sort direction
+
   selectedPermissions: any = {};
 
   constructor(private http: HttpClient) {}
@@ -48,11 +52,11 @@ export class DashboardComponent implements OnInit {
   // Load user Data
   loadUsers(): void {
     this.http.post<any>('https://localhost:7206/api/users/DataTable', {
-      "orderBy": "firstName",
-      "orderDirection": "asc",
+      "orderBy":  this.sortField,
+      "orderDirection": this.sortDirection,
       "pageNumber": this.currentPage, // currentPage
       "pageSize": this.pageSize,      // pageSize
-      "search": ""
+      "search": this.searchTerm       // Search term
     }).subscribe(response => {
       this.users = response.dataSource;
       this.totalUsers = response.totalCount; // total users
@@ -62,6 +66,24 @@ export class DashboardComponent implements OnInit {
   goToPage(page: number): void {
     this.currentPage = page;
     this.loadUsers(); 
+  }
+
+  // search input
+  searchUsers(): void {
+    this.currentPage = 1; // Reset to first page on search
+    this.loadUsers();
+  }
+
+
+  // sorting
+  sortUsers(field: string): void {
+    if (this.sortField === field) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortDirection = 'asc';
+    }
+    this.loadUsers();
   }
 
 
