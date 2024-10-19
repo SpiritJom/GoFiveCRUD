@@ -89,10 +89,10 @@
           <td class="border px-4 py-2 text-center">{{ getRoleName(user.role.roleId) }}</td>
   
           <td class="border px-4 py-2 text-center">
-            <button class="bg-transparent text-gray-500 px-2 py-1" (click)="openModal(true, user)">
+            <button class="bg-transparent text-gray-300 px-2 py-1" (click)="openModal(true, user)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button class="bg-transparent text-gray-500 px-2 py-1" (click)="deleteUser(user.userId)">
+            <button class="bg-transparent text-gray-300 px-2 py-1" (click)="deleteUser(user.userId)">
               <mat-icon>delete_outline</mat-icon>
             </button>
           </td>
@@ -123,74 +123,78 @@
   <div *ngIf="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
     <div class="bg-white p-6 rounded-lg w-3/4">
       <h2 class="text-xl font-bold mb-4">{{ isEditMode ? 'Edit User' : 'Add User' }}</h2>
-      <form (ngSubmit)="saveUser()">
-        <div class="grid grid-cols-2 gap-4">
+      <form (ngSubmit)="saveUser()" #userForm="ngForm">
+        <!-- User Info Form -->
+        <div class="grid grid-cols-2 gap-4 mb-8">
           <div>
-            <label for="userId">User ID</label>
-            <input [(ngModel)]="newUser.id" name="id" type="text" class="w-full border p-2 rounded" required>
+            <input [(ngModel)]="newUser.id" name="id" type="text" placeholder="User ID *" class="w-full border p-2 rounded" required>
+            <div *ngIf="userForm.submitted && !newUser.id" class="text-red-500 text-sm">This field is required.</div>
           </div>
           <div>
-            <label for="firstName">First Name</label>
-            <input [(ngModel)]="newUser.firstName" name="firstName" type="text" class="w-full border p-2 rounded" required>
+            <input [(ngModel)]="newUser.firstName" name="firstName" type="text" placeholder="First Name *" class="w-full border p-2 rounded" required>
+            <div *ngIf="userForm.submitted && !newUser.firstName" class="text-red-500 text-sm">This field is required.</div>
           </div>
           <div>
-            <label for="lastName">Last Name</label>
-            <input [(ngModel)]="newUser.lastName" name="lastName" type="text" class="w-full border p-2 rounded" required>
+            <input [(ngModel)]="newUser.lastName" name="lastName" type="text" placeholder="Last Name *" class="w-full border p-2 rounded" required>
+            <div *ngIf="userForm.submitted && !newUser.lastName" class="text-red-500 text-sm">This field is required.</div>
           </div>
           <div>
-            <label for="email">Email</label>
-            <input [(ngModel)]="newUser.email" name="email" type="email" class="w-full border p-2 rounded" required>
+            <input [(ngModel)]="newUser.email" name="email" type="email" placeholder="Email ID *" class="w-full border p-2 rounded" required>
+            <div *ngIf="userForm.submitted && !newUser.email" class="text-red-500 text-sm">This field is required.</div>
           </div>
           <div>
-            <label for="phone">Mobile No</label>
-            <input [(ngModel)]="newUser.phone" name="phone" type="text" class="w-full border p-2 rounded">
+            <input [(ngModel)]="newUser.phone" name="phone" type="text" placeholder="Mobile No" class="w-full border p-2 rounded">
           </div>
           <div>
-            <label for="role">Select Role Type</label>
             <select [(ngModel)]="newUser.roleId" name="roleId" class="w-full border p-2 rounded" required>
+              <option value="" disabled selected>Select Role Type *</option>
               <option *ngFor="let role of roles" [value]="role.roleId">{{ role.roleName }}</option>
             </select>
+            <div *ngIf="userForm.submitted && !newUser.roleId" class="text-red-500 text-sm">This field is required.</div>
           </div>
-  
-          <!-- Username field -->
           <div>
-            <label for="username">Username</label>
-            <input [(ngModel)]="newUser.username" name="username" type="text" class="w-full border p-2 rounded" required>
+            <input [(ngModel)]="newUser.username" name="username" type="text" placeholder="Username *" class="w-full border p-2 rounded" required>
+            <div *ngIf="userForm.submitted && !newUser.username" class="text-red-500 text-sm">This field is required.</div>
           </div>
-  
-          <!-- Password field -->
           <div>
-            <label for="password">Password</label>
-            <input [(ngModel)]="newUser.password" name="password" type="password" class="w-full border p-2 rounded" required>
+            <input [(ngModel)]="newUser.password" name="password" type="password" placeholder="Password *" class="w-full border p-2 rounded" required>
+            <div *ngIf="userForm.submitted && !newUser.password" class="text-red-500 text-sm">This field is required.</div>
           </div>
-  
-          <!-- Confirm Password field -->
           <div>
-            <label for="confirmPassword">Confirm Password</label>
-            <input [(ngModel)]="newUser.confirmPassword" name="confirmPassword" type="password" class="w-full border p-2 rounded" required>
+            <input [(ngModel)]="newUser.confirmPassword" name="confirmPassword" type="password" placeholder="Confirm Password *" class="w-full border p-2 rounded" required>
+            <div *ngIf="userForm.submitted && newUser.password !== newUser.confirmPassword" class="text-red-500 text-sm">Passwords do not match.</div>
           </div>
         </div>
   
-        <!-- Show all Permissions -->
-        <h3 class="text-lg font-bold mt-4">Module Permission</h3>
+        <!-- Module Permission Table -->
+        <h3 class="text-lg font-bold mb-4">Module Permission</h3>
         <table class="w-full mt-2 border">
           <thead>
-            <tr>
-              <th>Permission</th>
-              <th>Read</th>
-              <th>Write</th>
-              <th>Delete</th>
+            <tr class="bg-gray-100">
+              <th class="px-4 py-2">Permission</th>
+              <th class="px-4 py-2">Read</th>
+              <th class="px-4 py-2">Write</th>
+              <th class="px-4 py-2">Delete</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let permission of permissions">
-              <td>{{ permission.permissionName }}</td>
-              <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isReadable" name="read_{{permission.permissionId}}"></td>
-              <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isWritable" name="write_{{permission.permissionId}}"></td>
-              <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isDeletable" name="delete_{{permission.permissionId}}"></td>
+              <td class="border px-4 py-2">{{ permission.permissionName }}</td>
+              <td class="border px-4 py-2 text-center">
+                <input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isReadable" name="read_{{permission.permissionId}}">
+              </td>
+              <td class="border px-4 py-2 text-center">
+                <input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isWritable" name="write_{{permission.permissionId}}">
+              </td>
+              <td class="border px-4 py-2 text-center">
+                <input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isDeletable" name="delete_{{permission.permissionId}}">
+              </td>
             </tr>
           </tbody>
         </table>
+  
+        <!-- Validation for at least one checkbox selected -->
+        <div *ngIf="userForm.submitted && !hasPermissionSelected()" class="text-red-500 text-sm">At least one permission is required.</div>
   
         <!-- Save or Add User Button -->
         <div class="flex justify-end mt-4">
@@ -200,4 +204,5 @@
       </form>
     </div>
   </div>
+  
   </body>

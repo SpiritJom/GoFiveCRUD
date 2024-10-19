@@ -215,33 +215,59 @@ export class DashboardComponent implements OnInit {
     return finalPermissions;
   }
 
-  // add new user
   addUser(): void {
-    if (this.newUser.password !== this.newUser.confirmPassword) {
-      alert("Passwords do not match");
+    if (!this.newUser.username || !this.newUser.password || !this.newUser.confirmPassword || !this.newUser.roleId) {
+      Swal.fire('Error', 'Please fill in all required fields.', 'error');
       return;
     }
-
+    
+    if (this.newUser.password !== this.newUser.confirmPassword) {
+      Swal.fire('Error', 'Passwords do not match', 'error');
+      return;
+    }
+    
+    if (!this.hasPermissionSelected()) {
+      Swal.fire('Error', 'At least one permission is required.', 'error');
+      return;
+    }
+  
     this.newUser.permissions = this.selectHighestPermission();
     this.http.post<any>('https://localhost:7206/api/Users', this.newUser).subscribe(response => {
       this.closeModal();
-      this.loadUsers(); // รีเฟรชรายชื่อผู้ใช้หลังจากเพิ่ม
+      this.loadUsers();
+  
+      // Show success message
+      Swal.fire('Success', 'User has been added successfully.', 'success');
     });
   }
-
-  // edit user
+  
+  
   editUser(): void {
-    if (this.newUser.password !== this.newUser.confirmPassword) {
-      alert("Passwords do not match");
+    if (!this.newUser.username || !this.newUser.password || !this.newUser.confirmPassword || !this.newUser.roleId) {
+      Swal.fire('Error', 'Please fill in all required fields.', 'error');
       return;
     }
-
+  
+    if (this.newUser.password !== this.newUser.confirmPassword) {
+      Swal.fire('Error', 'Passwords do not match', 'error');
+      return;
+    }
+  
+    if (!this.hasPermissionSelected()) {
+      Swal.fire('Error', 'At least one permission is required.', 'error');
+      return;
+    }
+  
     this.newUser.permissions = this.selectHighestPermission();
     this.http.put<any>(`https://localhost:7206/api/Users/${this.newUser.id}`, this.newUser).subscribe(response => {
       this.closeModal();
       this.loadUsers();
+  
+      // Show success message
+      Swal.fire('Success', 'User has been edited successfully.', 'success');
     });
   }
+  
 
   // save (or edit) user
   saveUser(): void {
@@ -279,6 +305,16 @@ formatDate(dateStr: string): string {
   // Return the formatted date
   return `${day} ${formattedMonth}, ${year}`;
 }
+
+
+hasPermissionSelected(): boolean {
+  return Object.values(this.selectedPermissions).some((perm: any) => {
+    return perm && (perm.isReadable === true || perm.isWritable === true || perm.isDeletable === true);
+  });
+}
+
+
+
 
   
 }

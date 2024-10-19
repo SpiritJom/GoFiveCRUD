@@ -61,7 +61,10 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> EditUser(string id, [FromBody] CreateUserDto userDto)
         {
-            var existingUser = await _context.Users.Include(u => u.Permissions).FirstOrDefaultAsync(u => u.Id == id);
+            var existingUser = await _context.Users
+                .Include(u => u.Permissions)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
             if (existingUser == null)
             {
                 return NotFound(new
@@ -81,7 +84,7 @@ namespace backend.Controllers
             existingUser.Phone = userDto.Phone;
             existingUser.Username = userDto.Username;
 
-            // Hash password if it's provided in the DTO
+            // Hash password if provided
             if (!string.IsNullOrEmpty(userDto.Password))
             {
                 var hashedPassword = HashPassword(userDto.Password);
@@ -90,15 +93,20 @@ namespace backend.Controllers
 
             existingUser.RoleId = userDto.RoleId;
 
-            // Clear existing permissions
-            existingUser.Permissions.Clear();
+            // Remove existing permissions from the context
+            var existingPermissions = await _context.UserPermissions
+                .Where(up => up.UserId == existingUser.Id)
+                .ToListAsync();
+
+            // Remove them from the context before adding new permissions
+            _context.UserPermissions.RemoveRange(existingPermissions);
 
             // Add new permissions
             foreach (var permissionDto in userDto.Permissions)
             {
                 var userPermission = new UserPermission
                 {
-                    UserId = existingUser.Id,  // ใช้ userId จาก existingUser
+                    UserId = existingUser.Id,
                     PermissionId = permissionDto.PermissionId,
                     IsReadable = permissionDto.IsReadable,
                     IsWritable = permissionDto.IsWritable,
@@ -129,6 +137,7 @@ namespace backend.Controllers
                 }
             });
         }
+
 
 
         // 3. Get User By Id

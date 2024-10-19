@@ -1,3 +1,4 @@
+
 ul {
     list-style-type: none;
     padding: 0;
@@ -22,7 +23,7 @@ a {
 .active a::after {
     content: '';
     position: absolute;
-    right: -4rem;
+    right: -4rem; /* shift highlight */
     top: 0;
     bottom: 0;
     width: 4px;
@@ -95,3 +96,7 @@ h2 {
     width: 60%; /* Adjust input width on larger screens */
   }
 }
+
+.font-semibold {
+    font-weight: 600; /* Makes the header bold */
+  }
