@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import {MatIconModule} from '@angular/material/icon'
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule],
+  imports: [CommonModule, HttpClientModule, FormsModule, MatIconModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -38,6 +40,8 @@ export class DashboardComponent implements OnInit {
   searchTerm: string = ''; // Search term
   sortField: string = 'firstName'; // Default sort field
   sortDirection: string = 'asc'; // Default sort direction
+
+  
 
   selectedPermissions: any = {};
 
@@ -106,6 +110,12 @@ export class DashboardComponent implements OnInit {
         };
       });
     });
+  }
+
+  // Function to get permission name by ID
+  getPermissionName(permissionId: string): string {
+    const permission = this.permissions.find(p => p.permissionId === permissionId);
+    return permission ? permission.permissionName : 'Unknown';
   }
 
   // For add or edit user
@@ -246,4 +256,6 @@ export class DashboardComponent implements OnInit {
     const role = this.roles.find(r => r.roleId === roleId); 
     return role ? role.roleName : 'Unknown';
   }
+
+  
 }

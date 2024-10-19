@@ -37,6 +37,7 @@
   <thead>
     <tr class="bg-gray-200">
       <th class="px-4 py-2">Name</th>
+      <th class="px-4 py-2"></th>
       <th class="px-4 py-2">Email</th>
       <th class="px-4 py-2">Role</th>
       <th class="px-4 py-2">Actions</th>
@@ -45,11 +46,20 @@
   <tbody>
     <tr *ngFor="let user of users">
       <td class="border px-4 py-2">{{ user.firstName }} {{ user.lastName }}</td>
+      <!-- Permissions Label -->
+      <td class="border px-4 py-2">
+        {{ getPermissionName(user.permissions[0]?.permissionId) }}
+      </td>
+      
       <td class="border px-4 py-2">{{ user.email }}</td>
       <td class="border px-4 py-2">{{ getRoleName(user.role.roleId) }}</td>
       <td class="border px-4 py-2">
-        <button class="bg-blue-500 text-white px-2 py-1 rounded" (click)="openModal(true, user)">Edit</button>
-        <button class="bg-red-500 text-white px-2 py-1 rounded" (click)="deleteUser(user.userId)">Delete</button>
+        <button class="bg-transparent text-gray-500 px-2 py-1" (click)="openModal(true, user)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button class="bg-transparent text-gray-500 px-2 py-1" (click)="deleteUser(user.userId)">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
       </td>
     </tr>
   </tbody>
