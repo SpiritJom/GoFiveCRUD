@@ -41,9 +41,7 @@
 
 
 <!-- Users Table -->
-<!-- List Users Table -->
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
-  <!-- Updated header with rounded corners -->
   <div class="p-2 bg-white header-rounded shadow-header">
     <h2 class="text-lg font-semibold ml-2">List Users</h2>
   </div>
@@ -53,28 +51,34 @@
       <tr class="bg-gray-100">
         <th class="px-4 py-2">Name</th>
         <th class="px-4 py-2"></th>
-        <th class="px-4 py-2">Email</th>
+        <th class="px-4 py-2">Create Date</th> <!-- Created date column -->
         <th class="px-4 py-2">Role</th>
         <th class="px-4 py-2">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let user of users">
-        <td class="border px-4 py-2">{{ user.firstName }} {{ user.lastName }}</td>
-        <!-- Permissions Label with dynamic class -->
-        <td class="border px-4 py-2">
+        <td class="border px-4 py-2 text-ml-2">
+          <div>{{ user.firstName }} {{ user.lastName }}</div>
+          <div class="text-gray-500 text-sm">{{ user.email }}</div> <!-- Email under Name -->
+        </td>
+
+        <td class="border px-4 py-2 text-center">
           <span 
-            class="inline-block w-24 text-center px-3 py-1 rounded-full text-white text-sm"
+            class="inline-block w-24 text-center px-3 py-1 rounded-lg text-sm font-semibold "
             [ngClass]="{
-              'bg-blue-500': getPermissionName(user.permissions[0]?.permissionId) !== 'Employee',
-              'bg-gray-400': getPermissionName(user.permissions[0]?.permissionId) === 'Employee'
+              'bg-blue-500 text-white ': getPermissionName(user.permissions[0]?.permissionId) !== 'Employee',
+              'bg-gray-100 text-gray-400': getPermissionName(user.permissions[0]?.permissionId) === 'Employee'
             }">
             {{ getPermissionName(user.permissions[0]?.permissionId) }}
           </span>
         </td>
-        <td class="border px-4 py-2">{{ user.email }}</td>
+
+        <td class="border px-4 py-2">{{ formatDate(user.createdDate) }}</td> <!-- Use formatDate function -->
+        
         <td class="border px-4 py-2">{{ getRoleName(user.role.roleId) }}</td>
-        <td class="border px-4 py-2">
+
+        <td class="border px-4 py-2 text-center">
           <button class="bg-transparent text-gray-500 px-2 py-1" (click)="openModal(true, user)">
             <mat-icon>edit</mat-icon>
           </button>
@@ -82,6 +86,7 @@
             <mat-icon>delete_outline</mat-icon>
           </button>
         </td>
+
       </tr>
     </tbody>
   </table>

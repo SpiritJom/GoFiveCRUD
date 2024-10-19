@@ -62,6 +62,10 @@ export class DashboardComponent implements OnInit {
       "pageSize": this.pageSize,      // pageSize
       "search": this.searchTerm       // Search term
     }).subscribe(response => {
+      this.users = response.dataSource.map((user: any) => ({
+        ...user,
+        createdDate: user.createdDate // Mapping createdDate from response
+      }));
       this.users = response.dataSource;
       this.totalUsers = response.totalCount; // total users
     });
@@ -256,6 +260,29 @@ export class DashboardComponent implements OnInit {
     const role = this.roles.find(r => r.roleId === roleId); 
     return role ? role.roleName : 'Unknown';
   }
+
+
+  // Function to format the date according to the month length condition
+formatDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  // Array of month names
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  // Get the month name
+  const monthName = monthNames[date.getMonth()];
+
+  // If month name is longer than 5 characters, shorten to 3 characters
+  const formattedMonth = monthName.length > 5 ? monthName.substring(0, 3) : monthName;
+
+  // Return the formatted date
+  return `${day} ${formattedMonth}, ${year}`;
+}
 
   
 }
