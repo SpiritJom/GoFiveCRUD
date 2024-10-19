@@ -62,10 +62,6 @@ export class DashboardComponent implements OnInit {
       "pageSize": this.pageSize,      // pageSize
       "search": this.searchTerm       // Search term
     }).subscribe(response => {
-      this.users = response.dataSource.map((user: any) => ({
-        ...user,
-        createdDate: user.createdDate // Mapping createdDate from response
-      }));
       this.users = response.dataSource;
       this.totalUsers = response.totalCount; // total users
     });
@@ -199,7 +195,7 @@ export class DashboardComponent implements OnInit {
   }
 
   selectHighestPermission(): any[] {
-    const permissionOrder = ['4444', '3333', '2222', '1111'];
+    const permissionOrder = ['2222', '1111', '3333', '4444'];
     const finalPermissions = [];
     for (const permId of permissionOrder) {
       if (

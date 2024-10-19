@@ -1,54 +1,53 @@
-<div class="h-screen bg-white text-gray-600 flex flex-col p-6 w-48">
+<div class="h-screen bg-white text-gray-600 flex flex-col p-6 w-48 md:w-64 overflow-hidden">
   <h2 class="text-xl font-bold mb-10">YOURLOGO</h2>
   <nav>
     <ul class="space-y-6">
       <li [ngClass]="{'active': currentRoute === '/dashboard'}">
-        <a routerLink="/dashboard" class="flex items-center space-x-3">
+        <a routerLink="/dashboard" class="flex items-center space-x-3 truncate">
           <i class="ri-command-line"></i>
-          <span>Dashboard</span>
+          <span class="font-semibold">Dashboard</span>
         </a>
       </li>
       <li [ngClass]="{'active': currentRoute === '/users'}">
-        <a routerLink="/users" class="flex items-center space-x-3">
+        <a routerLink="/users" class="flex items-center space-x-3 truncate">
           <i class="ri-bar-chart-fill"></i>
-          <span>Users</span>
+          <span class="font-semibold">Users</span>
         </a>
       </li>
       <li [ngClass]="{'active': currentRoute === '/documents'}">
-        <a routerLink="/documents" class="flex items-center space-x-3">
+        <a routerLink="/documents" class="flex items-center space-x-3 truncate">
           <i class="ri-article-line"></i>
-          <span>Documents</span>
+          <span class="font-semibold">Documents</span>
         </a>
       </li>
       <li [ngClass]="{'active': currentRoute === '/photos'}">
-        <a routerLink="/photos" class="flex items-center space-x-3">
+        <a routerLink="/photos" class="flex items-center space-x-3 truncate">
           <i class="ri-image-line"></i>
-          <span>Photos</span>
+          <span class="font-semibold">Photos</span>
         </a>
       </li>
       <li [ngClass]="{'active': currentRoute === '/hierarchy'}">
-        <a routerLink="/hierarchy" class="flex items-center space-x-3">
+        <a routerLink="/hierarchy" class="flex items-center space-x-3 truncate">
           <i class="ri-hand-coin-line"></i>
-          <span>Hierarchy</span>
+          <span class="font-semibold">Hierarchy</span>
         </a>
       </li>
-
       <li style="margin-top: 50px;"> <!-- space -->
-        <a routerLink="/messages" class="flex items-center space-x-3">
+        <a routerLink="/messages" class="flex items-center space-x-3 truncate">
           <i class="ri-message-2-line"></i>
-          <span>Message</span>
+          <span class="font-semibold">Message</span>
         </a>
       </li>
       <li [ngClass]="{'active': currentRoute === '/help'}">
-        <a routerLink="/help" class="flex items-center space-x-3">
+        <a routerLink="/help" class="flex items-center space-x-3 truncate">
           <i class="ri-question-line"></i>
-          <span>Help</span>
+          <span class="font-semibold">Help</span>
         </a>
       </li>
       <li [ngClass]="{'active': currentRoute === '/settings'}">
-        <a routerLink="/settings" class="flex items-center space-x-3">
+        <a routerLink="/settings" class="flex items-center space-x-3 truncate">
           <i class="ri-settings-5-line"></i>
-          <span>Setting</span>
+          <span class="font-semibold">Setting</span>
         </a>
       </li>
     </ul>

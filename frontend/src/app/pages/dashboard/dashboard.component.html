@@ -1,200 +1,203 @@
 <body>
 
-<!-- Top Bar -->
-<div class="flex justify-between items-center p-4">
-  <div>
-    <h3 class="text-2xl font-bold">Hello Lekan</h3>
-    <p class="text-gray-500">Have a nice day</p>
-  </div>
-  <div class="flex items-center space-x-4">
-    <!-- Mock Profile Section -->
-    <button class="bg-transparent px-2 py-1">
-      <mat-icon>notifications</mat-icon>
-    </button>
-    <div class="flex items-center">
-      <img class="w-8 h-8 rounded-full" src="profile-image-url" alt="Profile" />
-      <span class="mr-2">Lekan Okeowo</span>
+  <!-- Top Bar -->
+  <div class="flex justify-between items-center p-4">
+    <div>
+      <h3 class="text-2xl font-bold">Hello Lekan</h3>
+      <p class="text-gray-500">Have a nice day</p>
+    </div>
+    <div class="flex items-center space-x-4">
+      <!-- Mock Profile Section -->
+      <button class="bg-transparent px-2 py-1">
+        <mat-icon>notifications</mat-icon>
+      </button>
+      <div class="flex items-center">
+        <img class="w-10 h-10 rounded-full mr-3" src="profile-image-url" alt="Profile" />
+        <div>
+          <span class="mr-2">Lekan Okeowo</span>
+          <p>Admin</p>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-<div class="user-dashboard-text">
-  <h1 class="text-2xl font-bold text-blue-500 mb-2">Users Dashboard</h1>
-</div>
-
-<!-- Search Bar and Sort Options -->
-<div class="flex justify-between items-center p-4 ">
-  <input [(ngModel)]="searchTerm" (input)="searchUsers()" placeholder="Search" class="border p-2 w-3/5 rounded" />
-  <button class="bg-blue-500 text-white px-4 py-2 rounded" (click)="openModal(false)">Add User +</button>
   
-  <div class="flex space-x-4">
-    <label>Sort by:</label>
-    <select [(ngModel)]="sortField" (change)="sortUsers(sortField)" class="bg-transparent">
-      <option value="firstName">Name</option>
-      <option value="email">Email</option>
-      <option value="role">Role</option>
-    </select>
-  </div>
-  <div>
-    <label>Save Search:</label>
-  </div>
-  <div>
-    <button class="bg-transparent px-2 py-1">
-      <i class="ri-equalizer-fill"></i>
-    </button>
-  </div>
-</div>
-
-
-
-<!-- Users Table -->
-<div class="bg-white shadow-md rounded-lg overflow-hidden">
-  <div class="p-2 bg-white header-rounded shadow-header">
-    <h2 class="text-lg font-semibold ml-2">List Users</h2>
+  <div class="user-dashboard-text">
+    <h1 class="text-2xl font-bold text-blue-500 mb-2">Users Dashboard</h1>
   </div>
   
-  <table class="table-auto w-full">
-    <thead>
-      <tr class="bg-gray-100">
-        <th class="px-4 py-2">Name</th>
-        <th class="px-4 py-2"></th>
-        <th class="px-4 py-2">Create Date</th> <!-- Created date column -->
-        <th class="px-4 py-2">Role</th>
-        <th class="px-4 py-2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users">
-        <td class="border px-4 py-2 text-ml-2">
-          <div>{{ user.firstName }} {{ user.lastName }}</div>
-          <div class="text-gray-500 text-sm">{{ user.email }}</div> <!-- Email under Name -->
-        </td>
-
-        <td class="border px-4 py-2 text-center">
-          <span 
-            class="inline-block w-24 text-center px-3 py-1 rounded-lg text-sm font-semibold "
-            [ngClass]="{
-              'bg-blue-500 text-white ': getPermissionName(user.permissions[0]?.permissionId) !== 'Employee',
-              'bg-gray-100 text-gray-400': getPermissionName(user.permissions[0]?.permissionId) === 'Employee'
-            }">
-            {{ getPermissionName(user.permissions[0]?.permissionId) }}
-          </span>
-        </td>
-
-        <td class="border px-4 py-2">{{ formatDate(user.createdDate) }}</td> <!-- Use formatDate function -->
-        
-        <td class="border px-4 py-2">{{ getRoleName(user.role.roleId) }}</td>
-
-        <td class="border px-4 py-2 text-center">
-          <button class="bg-transparent text-gray-500 px-2 py-1" (click)="openModal(true, user)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button class="bg-transparent text-gray-500 px-2 py-1" (click)="deleteUser(user.userId)">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
-        </td>
-
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-
-
-<!-- Pagination Controls -->
-<div class="flex justify-between mt-4">
-  <div>
-    <label>Items per page:</label>
-    <select [(ngModel)]="pageSize" (change)="loadUsers()" class="bg-transparent">
-      <option *ngFor="let size of [6, 7, 8, 9, 10]" [value]="size">{{ size }}</option>
-    </select>
+  <!-- Search Bar and Sort Options -->
+  <div class="flex justify-between items-center p-4 ">
+    <input [(ngModel)]="searchTerm" (input)="searchUsers()" placeholder="Search" class="border p-2 w-3/5 rounded" />
+    <button class="bg-blue-500 text-white px-4 py-2 rounded" (click)="openModal(false)">Add User +</button>
+    
+    <div class="flex space-x-4">
+      <label>Sort by:</label>
+      <select [(ngModel)]="sortField" (change)="sortUsers(sortField)" class="bg-transparent">
+        <option value="firstName">Name</option>
+        <option value="email">Email</option>
+        <option value="role">Role</option>
+      </select>
+    </div>
+    <div>
+      <label>Save Search:</label>
+    </div>
+    <div>
+      <button class="bg-transparent px-2 py-1">
+        <i class="ri-equalizer-fill"></i>
+      </button>
+    </div>
   </div>
-  <div>
-    <span>{{ (currentPage - 1) * pageSize + 1 }}-{{ currentPage * pageSize }} of {{ totalUsers }}</span>
-    <button class="px-4 py-2" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Previous</button>
-    <button class="px-4 py-2" [disabled]="currentPage * pageSize >= totalUsers" (click)="goToPage(currentPage + 1)">Next</button>
+  
+  
+  
+  <!-- Users Table -->
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="p-2 bg-white header-rounded shadow-header">
+      <h2 class="text-lg font-semibold ml-2">List Users</h2>
+    </div>
+    
+    <table class="table-auto w-full">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-2">Name</th>
+          <th class="px-4 py-2"></th>
+          <th class="px-4 py-2">Create Date</th> <!-- Created date column -->
+          <th class="px-4 py-2">Role</th>
+          <th class="px-4 py-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td class="border px-4 py-2 text-ml-2">
+            <div>{{ user.firstName }} {{ user.lastName }}</div>
+            <div class="text-gray-500 text-sm">{{ user.email }}</div> <!-- Email under Name -->
+          </td>
+  
+          <td class="border px-4 py-2 text-center">
+            <span 
+              class="inline-block w-24 text-center px-3 py-1 rounded-lg text-sm font-semibold "
+              [ngClass]="{
+                'bg-blue-500 text-white ': getPermissionName(user.permissions[0]?.permissionId) !== 'Employee',
+                'bg-gray-100 text-gray-400': getPermissionName(user.permissions[0]?.permissionId) === 'Employee'
+              }">
+              {{ getPermissionName(user.permissions[0]?.permissionId) }}
+            </span>
+          </td>
+  
+          <td class="border px-4 py-2 text-center">{{ formatDate(user.createdDate) }}</td> <!-- Use formatDate function -->
+          
+          <td class="border px-4 py-2 text-center">{{ getRoleName(user.role.roleId) }}</td>
+  
+          <td class="border px-4 py-2 text-center">
+            <button class="bg-transparent text-gray-500 px-2 py-1" (click)="openModal(true, user)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button class="bg-transparent text-gray-500 px-2 py-1" (click)="deleteUser(user.userId)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </td>
+  
+        </tr>
+      </tbody>
+    </table>
   </div>
-</div>
-
-<!-- Modal for Add or Edit User -->
-<div *ngIf="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-  <div class="bg-white p-6 rounded-lg w-3/4">
-    <h2 class="text-xl font-bold mb-4">{{ isEditMode ? 'Edit User' : 'Add User' }}</h2>
-    <form (ngSubmit)="saveUser()">
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label for="userId">User ID</label>
-          <input [(ngModel)]="newUser.id" name="id" type="text" class="w-full border p-2 rounded" required>
-        </div>
-        <div>
-          <label for="firstName">First Name</label>
-          <input [(ngModel)]="newUser.firstName" name="firstName" type="text" class="w-full border p-2 rounded" required>
-        </div>
-        <div>
-          <label for="lastName">Last Name</label>
-          <input [(ngModel)]="newUser.lastName" name="lastName" type="text" class="w-full border p-2 rounded" required>
-        </div>
-        <div>
-          <label for="email">Email</label>
-          <input [(ngModel)]="newUser.email" name="email" type="email" class="w-full border p-2 rounded" required>
-        </div>
-        <div>
-          <label for="phone">Mobile No</label>
-          <input [(ngModel)]="newUser.phone" name="phone" type="text" class="w-full border p-2 rounded">
-        </div>
-        <div>
-          <label for="role">Select Role Type</label>
-          <select [(ngModel)]="newUser.roleId" name="roleId" class="w-full border p-2 rounded" required>
-            <option *ngFor="let role of roles" [value]="role.roleId">{{ role.roleName }}</option>
-          </select>
-        </div>
-
-        <!-- Username field -->
-        <div>
-          <label for="username">Username</label>
-          <input [(ngModel)]="newUser.username" name="username" type="text" class="w-full border p-2 rounded" required>
-        </div>
-
-        <!-- Password field -->
-        <div>
-          <label for="password">Password</label>
-          <input [(ngModel)]="newUser.password" name="password" type="password" class="w-full border p-2 rounded" required>
-        </div>
-
-        <!-- Confirm Password field -->
-        <div>
-          <label for="confirmPassword">Confirm Password</label>
-          <input [(ngModel)]="newUser.confirmPassword" name="confirmPassword" type="password" class="w-full border p-2 rounded" required>
-        </div>
-      </div>
-
-      <!-- Show all Permissions -->
-      <h3 class="text-lg font-bold mt-4">Module Permission</h3>
-      <table class="w-full mt-2 border">
-        <thead>
-          <tr>
-            <th>Permission</th>
-            <th>Read</th>
-            <th>Write</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let permission of permissions">
-            <td>{{ permission.permissionName }}</td>
-            <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isReadable" name="read_{{permission.permissionId}}"></td>
-            <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isWritable" name="write_{{permission.permissionId}}"></td>
-            <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isDeletable" name="delete_{{permission.permissionId}}"></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Save or Add User Button -->
-      <div class="flex justify-end mt-4">
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">{{ isEditMode ? 'Save User' : 'Add User' }}</button>
-        <button type="button" class="bg-gray-300 text-black px-4 py-2 ml-2 rounded" (click)="closeModal()">Cancel</button>
-      </div>
-    </form>
+  
+  
+  
+  <!-- Pagination Controls -->
+  <div class="flex justify-between mt-4">
+    <div>
+      <label>Items per page:</label>
+      <select [(ngModel)]="pageSize" (change)="loadUsers()" class="bg-transparent">
+        <option *ngFor="let size of [6, 7, 8, 9, 10]" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+    <div>
+      <span>{{ (currentPage - 1) * pageSize + 1 }}-{{ currentPage * pageSize }} of {{ totalUsers }}</span>
+      <button class="px-4 py-2" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Previous</button>
+      <button class="px-4 py-2" [disabled]="currentPage * pageSize >= totalUsers" (click)="goToPage(currentPage + 1)">Next</button>
+    </div>
   </div>
-</div>
-</body>
+  
+  <!-- Modal for Add or Edit User -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded-lg w-3/4">
+      <h2 class="text-xl font-bold mb-4">{{ isEditMode ? 'Edit User' : 'Add User' }}</h2>
+      <form (ngSubmit)="saveUser()">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="userId">User ID</label>
+            <input [(ngModel)]="newUser.id" name="id" type="text" class="w-full border p-2 rounded" required>
+          </div>
+          <div>
+            <label for="firstName">First Name</label>
+            <input [(ngModel)]="newUser.firstName" name="firstName" type="text" class="w-full border p-2 rounded" required>
+          </div>
+          <div>
+            <label for="lastName">Last Name</label>
+            <input [(ngModel)]="newUser.lastName" name="lastName" type="text" class="w-full border p-2 rounded" required>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input [(ngModel)]="newUser.email" name="email" type="email" class="w-full border p-2 rounded" required>
+          </div>
+          <div>
+            <label for="phone">Mobile No</label>
+            <input [(ngModel)]="newUser.phone" name="phone" type="text" class="w-full border p-2 rounded">
+          </div>
+          <div>
+            <label for="role">Select Role Type</label>
+            <select [(ngModel)]="newUser.roleId" name="roleId" class="w-full border p-2 rounded" required>
+              <option *ngFor="let role of roles" [value]="role.roleId">{{ role.roleName }}</option>
+            </select>
+          </div>
+  
+          <!-- Username field -->
+          <div>
+            <label for="username">Username</label>
+            <input [(ngModel)]="newUser.username" name="username" type="text" class="w-full border p-2 rounded" required>
+          </div>
+  
+          <!-- Password field -->
+          <div>
+            <label for="password">Password</label>
+            <input [(ngModel)]="newUser.password" name="password" type="password" class="w-full border p-2 rounded" required>
+          </div>
+  
+          <!-- Confirm Password field -->
+          <div>
+            <label for="confirmPassword">Confirm Password</label>
+            <input [(ngModel)]="newUser.confirmPassword" name="confirmPassword" type="password" class="w-full border p-2 rounded" required>
+          </div>
+        </div>
+  
+        <!-- Show all Permissions -->
+        <h3 class="text-lg font-bold mt-4">Module Permission</h3>
+        <table class="w-full mt-2 border">
+          <thead>
+            <tr>
+              <th>Permission</th>
+              <th>Read</th>
+              <th>Write</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let permission of permissions">
+              <td>{{ permission.permissionName }}</td>
+              <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isReadable" name="read_{{permission.permissionId}}"></td>
+              <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isWritable" name="write_{{permission.permissionId}}"></td>
+              <td><input type="checkbox" [(ngModel)]="selectedPermissions[permission.permissionId].isDeletable" name="delete_{{permission.permissionId}}"></td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <!-- Save or Add User Button -->
+        <div class="flex justify-end mt-4">
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">{{ isEditMode ? 'Save User' : 'Add User' }}</button>
+          <button type="button" class="bg-gray-300 text-black px-4 py-2 ml-2 rounded" (click)="closeModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </body>
