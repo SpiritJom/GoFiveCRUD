@@ -1,14 +1,56 @@
-<div class="h-screen bg-gray-800 text-white flex flex-col p-4">
-    <h2 class="text-2xl font-bold mb-6">YOURLOGO</h2>
-    <nav>
-      <ul>
-        <li class="mb-4">
-          <a routerLink="/dashboard" class="hover:text-blue-400">Dashboard</a>
-        </li>
-        <li class="mb-4">
-          <a routerLink="/documents" class="hover:text-blue-400">Documents</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  
+<div class="h-screen bg-white text-gray-600 flex flex-col p-6 w-48">
+  <h2 class="text-xl font-bold mb-10">YOURLOGO</h2>
+  <nav>
+    <ul class="space-y-6">
+      <li [ngClass]="{'active': currentRoute === '/dashboard'}">
+        <a routerLink="/dashboard" class="flex items-center space-x-3">
+          <i class="ri-command-line"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li [ngClass]="{'active': currentRoute === '/users'}">
+        <a routerLink="/users" class="flex items-center space-x-3">
+          <i class="ri-bar-chart-fill"></i>
+          <span>Users</span>
+        </a>
+      </li>
+      <li [ngClass]="{'active': currentRoute === '/documents'}">
+        <a routerLink="/documents" class="flex items-center space-x-3">
+          <i class="ri-article-line"></i>
+          <span>Documents</span>
+        </a>
+      </li>
+      <li [ngClass]="{'active': currentRoute === '/photos'}">
+        <a routerLink="/photos" class="flex items-center space-x-3">
+          <i class="ri-image-line"></i>
+          <span>Photos</span>
+        </a>
+      </li>
+      <li [ngClass]="{'active': currentRoute === '/hierarchy'}">
+        <a routerLink="/hierarchy" class="flex items-center space-x-3">
+          <i class="ri-hand-coin-line"></i>
+          <span>Hierarchy</span>
+        </a>
+      </li>
+
+      <li style="margin-top: 50px;"> <!-- space -->
+        <a routerLink="/messages" class="flex items-center space-x-3">
+          <i class="ri-message-2-line"></i>
+          <span>Message</span>
+        </a>
+      </li>
+      <li [ngClass]="{'active': currentRoute === '/help'}">
+        <a routerLink="/help" class="flex items-center space-x-3">
+          <i class="ri-question-line"></i>
+          <span>Help</span>
+        </a>
+      </li>
+      <li [ngClass]="{'active': currentRoute === '/settings'}">
+        <a routerLink="/settings" class="flex items-center space-x-3">
+          <i class="ri-settings-5-line"></i>
+          <span>Setting</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
