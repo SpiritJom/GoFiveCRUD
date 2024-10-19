@@ -30,6 +30,11 @@ export class DashboardComponent implements OnInit {
     permissions: []
   };
 
+  // Pagination
+  currentPage: number = 1;  // start page
+  pageSize: number = 6;     // number items of page
+  totalUsers: number = 0;   // total users
+
   selectedPermissions: any = {};
 
   constructor(private http: HttpClient) {}
@@ -45,13 +50,20 @@ export class DashboardComponent implements OnInit {
     this.http.post<any>('https://localhost:7206/api/users/DataTable', {
       "orderBy": "firstName",
       "orderDirection": "asc",
-      "pageNumber": 1,
-      "pageSize": 10,
+      "pageNumber": this.currentPage, // currentPage
+      "pageSize": this.pageSize,      // pageSize
       "search": ""
     }).subscribe(response => {
       this.users = response.dataSource;
+      this.totalUsers = response.totalCount; // total users
     });
   }
+
+  goToPage(page: number): void {
+    this.currentPage = page;
+    this.loadUsers(); 
+  }
+
 
   // Load Roles
   loadRoles(): void {

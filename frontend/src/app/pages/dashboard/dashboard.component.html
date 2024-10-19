@@ -27,6 +27,22 @@
   </tbody>
 </table>
 
+
+<!-- Pagination Controls -->
+<div class="flex justify-between mt-4">
+  <div>
+    <label>Items per page:</label>
+    <select [(ngModel)]="pageSize" (change)="loadUsers()" class="border p-2">
+      <option *ngFor="let size of [6, 7, 8, 9, 10]" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+  <div>
+    <span>{{ (currentPage - 1) * pageSize + 1 }}-{{ currentPage * pageSize }} of {{ totalUsers }}</span>
+    <button class="px-4 py-2" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Previous</button>
+    <button class="px-4 py-2" [disabled]="currentPage * pageSize >= totalUsers" (click)="goToPage(currentPage + 1)">Next</button>
+  </div>
+</div>
+
 <!-- Modal for Add or Edit User -->
 <div *ngIf="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
   <div class="bg-white p-6 rounded-lg w-3/4">
