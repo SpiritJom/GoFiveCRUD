@@ -22,16 +22,21 @@
   </div>
   
   <div class="user-dashboard-text">
-    <h1 class="text-2xl font-bold text-blue-500 mb-2">Users Dashboard</h1>
+    <h1 class="text-2xl font-bold text-blue-500 mb-2 ml-5">Users Dashboard</h1>
   </div>
   
   <!-- Search Bar and Sort Options -->
   <div class="flex justify-between items-center p-4 ">
-    <input [(ngModel)]="searchTerm" (input)="searchUsers()" placeholder="Search" class="border p-2 w-3/5 rounded" />
+    <div class="relative w-3/5">
+      <i class="ri-search-line absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+      <input [(ngModel)]="searchTerm" (input)="searchUsers()" placeholder="Search" 
+             class="border p-2 pl-10 w-full rounded" />
+    </div>
+    
     <button class="bg-blue-500 text-white px-4 py-2 rounded" (click)="openModal(false)">Add User +</button>
     
     <div class="flex space-x-4">
-      <label>Sort by:</label>
+      <label>Sort by</label>
       <select [(ngModel)]="sortField" (change)="sortUsers(sortField)" class="bg-transparent">
         <option value="firstName">Name</option>
         <option value="email">Email</option>

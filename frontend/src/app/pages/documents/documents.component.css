@@ -1,0 +1,127 @@
+/* Background color for the entire page */
+body {
+    background-color: #f5f5f5;
+    white-space: nowrap
+  }
+  
+  .w-24 {
+    width: 7rem; /* Ensures the label has a fixed width */
+  }
+  
+  .text-center {
+    text-align: center; /* Centers the text inside the label */
+  }
+  
+  /* Styling for rounded table */
+  table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  thead tr:first-child th:first-child {
+    border-top-left-radius: 10px;
+  }
+  
+  thead tr:first-child th:last-child {
+    border-top-right-radius: 10px;
+  }
+  
+  tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+  }
+  
+  tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+  }
+  
+  /* Styling for table wrapper to be rounded */
+  .header-rounded {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      background-color: white; /* Ensure the background matches */
+  }
+    
+  /* Add a slight shadow to the table header for more emphasis */
+  .shadow-header {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+    
+  /* Styling for the rest of the table (body) */
+  .bg-white {
+      background-color: white;
+  }
+  
+
+  /* Ensure table fills the full width */
+.table-auto {
+  width: 100%; /* Make sure the table covers full width */
+  border-collapse: collapse; /* Ensure the borders collapse for cleaner look */
+}
+
+thead th {
+  padding: 1rem; /* Add padding for consistency */
+}
+
+tbody td {
+  padding: 1rem; /* Add padding for the table data cells */
+}
+
+.border {
+  border: 1px solid #e5e7eb; /* Add consistent border to all table cells */
+}
+
+.bg-gray-100 {
+  background-color: #f3f4f6; /* Light background for header row */
+}
+
+/* Ensure header shadow and round corners are consistent */
+.header-rounded {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: white;
+}
+
+.shadow-header {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.bg-white {
+  background-color: white;
+}
+
+/* Adjust button sizes and table spacing to match the dashboard style */
+button {
+  padding: 0.5rem;
+  margin-left: 0.25rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-24 {
+  width: 6rem;
+}
+
+i {
+    font-size: 24px; 
+  }
+
+.icon-container {
+    width: 40px;              
+    height: 40px;              
+    border: 1px solid #d1d5db; 
+    display: flex;            
+    justify-content: center;  
+    align-items: center;       
+    border-radius: 4px;
+}
+
+.icon-container i {
+    font-size: 20px;   
+}
+
+.filter-documents {
+    border: 1px solid #d1d5db; 
+
+}

@@ -1,3 +1,5 @@
+<body>
+  
 <div class="h-screen bg-white text-gray-600 flex flex-col p-6 w-48 md:w-64 overflow-hidden">
   <h2 class="text-xl font-bold mb-10">YOURLOGO</h2>
   <nav>
@@ -16,7 +18,7 @@
       </li>
       <li [ngClass]="{'active': currentRoute === '/documents'}">
         <a routerLink="/documents" class="flex items-center space-x-3 truncate">
-          <i class="ri-article-line"></i>
+          <i class="ri-file-text-line"></i>
           <span class="font-semibold">Documents</span>
         </a>
       </li>
@@ -53,3 +55,5 @@
     </ul>
   </nav>
 </div>
+
+</body>

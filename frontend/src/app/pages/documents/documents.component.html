@@ -1,2 +1,128 @@
-<h1 class="text-2xl font-bold">Documents Page</h1>
-<!-- Add document-specific content here -->
+<body>
+  <!-- Top Bar -->
+  <div class="flex justify-between items-center p-4">
+    <div>
+      <h3 class="text-2xl font-bold">Hello Lekan</h3>
+      <p class="text-gray-500">Have a nice day</p>
+    </div>
+    <div class="flex items-center space-x-4">
+      <!-- Mock Profile Section -->
+      <button class="bg-transparent px-2 py-1">
+        <mat-icon>notifications</mat-icon>
+      </button>
+      <div class="flex items-center">
+        <img
+          class="w-10 h-10 rounded-full mr-3"
+          src="profile-image-url"
+          alt="Profile"
+        />
+        <div>
+          <span class="mr-2">Lekan Okeowo</span>
+          <p>Admin</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="user-dashboard-text">
+    <h1 class="text-2xl font-bold text-blue-500 mb-2 ml-5">Documents</h1>
+  </div>
+
+  <!-- Search Bar and Sort Options -->
+  <div class="flex justify-between items-center p-4 ">
+    <div class="relative w-5/6">
+        <i class="ri-search-line absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+        <input [(ngModel)]="searchTerm" placeholder="Search Documents" 
+               class="border p-2 pl-10 w-full rounded" />
+      </div>
+      
+
+    <div class="flex space-x-4">
+      <label>Sort by</label>
+      <select [(ngModel)]="sortField" class="bg-transparent">
+        <option value="firstName">Name</option>
+        <option value="email">Email</option>
+        <option value="role">Role</option>
+      </select>
+    </div>
+
+    <div>
+      <button class="bg-transparent px-2 py-1">
+        <i class="ri-equalizer-fill"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Many Icon -->
+  <div class="ml-4 flex justify-between mb-5">
+    <button>
+        <div class="icon-container">
+          <i class="ri-macbook-line text-blue-500"></i>
+        </div>
+    </button>
+    <button>
+        <div class="icon-container">
+          <i class="ri-fullscreen-fill text-blue-500"></i>
+        </div>
+    </button>
+    <button>
+        <div class="icon-container">
+          <i class="ri-booklet-fill text-blue-500"></i>
+        </div>
+    </button>
+    <button>
+        <div class="icon-container">
+          <i class="ri-printer-fill text-blue-500"></i>
+        </div>
+    </button>
+    <button>
+        <div class="icon-container">
+          <i class="ri-delete-bin-7-fill text-blue-500"></i>
+        </div>
+    </button>
+    <!-- Right aligned select and button section -->
+    <div class="flex items-center space-x-2 ml-auto">
+        <select class="filter-documents p-2 bg-transparent">
+            <option>This Month</option>
+            <option>Last Month</option>
+        </select>
+        <select class="filter-documents p-2 bg-transparent">
+            <option>Documents</option>
+            <option>Reports</option>
+        </select>
+        <button class="bg-blue-500 text-white w-10 h-10 rounded font-bold ">+</button>
+    </div>
+  </div>
+  
+
+  <!-- List of Documents -->
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="p-2 bg-white header-rounded shadow-header">
+      <h2 class="text-lg font-semibold ml-3">List of documents</h2>
+      <p class="ml-3 text-gray-400">Lorem ipsum lorem oujuhn</p>
+    </div>
+
+    <table class="table-auto w-full">
+      <tbody>
+        <tr *ngFor="let document of documents">
+          <td class="border px-4 py-2 text-center">
+            <i class="ri-file-text-line"></i>
+          </td>
+          <td class="border px-4 py-2">
+            <div>{{ document.name }}</div>
+            <div class="text-gray-500 text-sm">{{ document.date }}</div>
+          </td>
+          <td class="border px-4 py-2">{{ document.description }}</td>
+          <td class="border px-4 py-2 text-center">
+            <button class="bg-transparent text-gray-300 px-2 py-1">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button class="bg-transparent text-gray-300 px-2 py-1">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>

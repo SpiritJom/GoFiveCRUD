@@ -1,7 +1,12 @@
 
+body{
+  white-space: nowrap;
+}
+
 ul {
     list-style-type: none;
     padding: 0;
+    overflow: visible;
 }
 
 a {
@@ -10,9 +15,9 @@ a {
     display: flex;
     align-items: center;
     padding: 0px 0;
-    overflow: hidden; /* ป้องกันข้อความทลักออก */
-    text-overflow: ellipsis; /* ย่อตัวอักษรถ้ายาวเกิน */
-    white-space: nowrap; /* ไม่ให้ข้อความขึ้นบรรทัดใหม่ */
+    overflow: visible; 
+    text-overflow: ellipsis;
+    white-space: nowrap; 
 }
 
 .active a {
@@ -85,6 +90,12 @@ h2 {
     width: 100%;
     overflow-x: auto;
   }
+
+  div.h-screen {
+    position: absolute;
+    width: 100%;    /* Sidebar takes full width on smaller screens */
+    height: auto;   /* Adjust height automatically */
+  }
 }
 
 @media (min-width: 769px) {
@@ -100,3 +111,15 @@ h2 {
 .font-semibold {
     font-weight: 600; /* Makes the header bold */
   }
+
+div.h-screen {
+    position: fixed;  /* Fix the position of the sidebar */
+    height: 100vh;    /* Set the height to be 100% of the viewport */
+    top: 0;
+    left: 0;
+    z-index: 1000;    /* Ensure sidebar is on top */
+    width: 16rem;     /* Fixed width for larger screens */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+
