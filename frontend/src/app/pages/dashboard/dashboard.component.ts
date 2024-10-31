@@ -222,6 +222,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Add User
+// Add User
 addUser(): void {
   if (!this.newUser.username || !this.newUser.password || !this.newUser.confirmPassword || !this.newUser.roleId) {
     Swal.fire('Error', 'Please fill in all required fields.', 'error');
@@ -238,15 +239,31 @@ addUser(): void {
     return;
   }
 
-  this.newUser.permissions = this.selectHighestPermission();
-  this.apiService.addUser(this.newUser).subscribe(response => {
-    this.closeModal();
-    this.loadUsers();
-    
-    // Show success message
-    Swal.fire('Success', 'User has been added successfully.', 'success');
-  });
+  // Check for duplicate userId
+  this.apiService.getUserById(this.newUser.id).subscribe(
+    () => {
+      // If the user exists, show an alert
+      Swal.fire('Error', 'User ID already exists. Please choose a different ID.', 'error');
+    },
+    (error) => {
+      // If the user does not exist, proceed to add
+      if (error.status === 404) { // Check if the error status is 404 (Not Found)
+        this.newUser.permissions = this.selectHighestPermission();
+        this.apiService.addUser(this.newUser).subscribe(response => {
+          this.closeModal();
+          this.loadUsers();
+          
+          // Show success message
+          Swal.fire('Success', 'User has been added successfully.', 'success');
+        });
+      } else {
+        // Handle other errors
+        Swal.fire('Error', 'An error occurred while checking user ID. Please try again.', 'error');
+      }
+    }
+  );
 }
+
 
 // Edit User
 editUser(): void {
