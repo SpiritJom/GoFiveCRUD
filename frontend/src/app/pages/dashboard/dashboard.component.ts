@@ -4,6 +4,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import {MatIconModule} from '@angular/material/icon'
+import { ApiService } from '../../api.service';
+
 
 
 @Component({
@@ -45,7 +47,8 @@ export class DashboardComponent implements OnInit {
 
   selectedPermissions: any = {};
 
-  constructor(private http: HttpClient) {}
+  constructor(private apiService: ApiService) {}
+
 
   ngOnInit(): void {
     this.loadUsers();
@@ -53,19 +56,27 @@ export class DashboardComponent implements OnInit {
     this.loadPermissions();
   }
 
-  // Load user Data
+  // Load user data
   loadUsers(): void {
-    this.http.post<any>('https://localhost:7206/api/users/DataTable', {
-      "orderBy":  this.sortField,
-      "orderDirection": this.sortDirection,
-      "pageNumber": this.currentPage, // currentPage
-      "pageSize": this.pageSize,      // pageSize
-      "search": this.searchTerm       // Search term
-    }).subscribe(response => {
-      this.users = response.dataSource;
-      this.totalUsers = response.totalCount; // total users
-    });
+    const filter = {
+      orderBy: this.sortField,
+      orderDirection: this.sortDirection,
+      pageNumber: this.currentPage,
+      pageSize: this.pageSize,
+      search: this.searchTerm
+    };
+    this.apiService.getUsers(filter).subscribe(
+      response => {
+        console.log("Response data:", response);
+        this.users = response.dataSource;
+        this.totalUsers = response.totalCount;
+      },  
+      error => {
+        console.error("Error loading users:", error);
+      }
+    );
   }
+  
 
   goToPage(page: number): void {
     this.currentPage = page;
@@ -93,14 +104,14 @@ export class DashboardComponent implements OnInit {
 
   // Load Roles
   loadRoles(): void {
-    this.http.get<any>('https://localhost:7206/api/Roles').subscribe(response => {
+    this.apiService.getRoles().subscribe(response => {
       this.roles = response.data;
     });
   }
 
   // Load Permisssions
   loadPermissions(): void {
-    this.http.get<any>('https://localhost:7206/api/Permissions').subscribe(response => {
+    this.apiService.getPermissions().subscribe(response => {
       this.permissions = response.data;
       this.permissions.forEach((permission: any) => {
         this.selectedPermissions[permission.permissionId] = {
@@ -124,7 +135,7 @@ export class DashboardComponent implements OnInit {
     this.showModal = true;
   
     if (isEditMode && user) {
-      this.http.get<any>(`https://localhost:7206/api/Users/${user.userId}`).subscribe(userData => {
+      this.apiService.getUserById(user.userId).subscribe(userData => {
         const data = userData.data;  
         console.log(data);  
         this.newUser = {
@@ -181,14 +192,9 @@ export class DashboardComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        // if confirm
-        this.http.delete<any>(`https://localhost:7206/api/Users/${userId}`).subscribe(response => {
-          Swal.fire(
-            'Deleted!',
-            'The user has been deleted.',
-            'success'
-          );
-          this.loadUsers(); 
+        this.apiService.deleteUser(userId).subscribe(() => {
+          Swal.fire('Deleted!', 'The user has been deleted.', 'success');
+          this.loadUsers();
         });
       }
     });
@@ -215,58 +221,59 @@ export class DashboardComponent implements OnInit {
     return finalPermissions;
   }
 
-  addUser(): void {
-    if (!this.newUser.username || !this.newUser.password || !this.newUser.confirmPassword || !this.newUser.roleId) {
-      Swal.fire('Error', 'Please fill in all required fields.', 'error');
-      return;
-    }
-    
-    if (this.newUser.password !== this.newUser.confirmPassword) {
-      Swal.fire('Error', 'Passwords do not match', 'error');
-      return;
-    }
-    
-    if (!this.hasPermissionSelected()) {
-      Swal.fire('Error', 'At least one permission is required.', 'error');
-      return;
-    }
-  
-    this.newUser.permissions = this.selectHighestPermission();
-    this.http.post<any>('https://localhost:7206/api/Users', this.newUser).subscribe(response => {
-      this.closeModal();
-      this.loadUsers();
-  
-      // Show success message
-      Swal.fire('Success', 'User has been added successfully.', 'success');
-    });
+  // Add User
+addUser(): void {
+  if (!this.newUser.username || !this.newUser.password || !this.newUser.confirmPassword || !this.newUser.roleId) {
+    Swal.fire('Error', 'Please fill in all required fields.', 'error');
+    return;
   }
   
-  
-  editUser(): void {
-    if (!this.newUser.username || !this.newUser.password || !this.newUser.confirmPassword || !this.newUser.roleId) {
-      Swal.fire('Error', 'Please fill in all required fields.', 'error');
-      return;
-    }
-  
-    if (this.newUser.password !== this.newUser.confirmPassword) {
-      Swal.fire('Error', 'Passwords do not match', 'error');
-      return;
-    }
-  
-    if (!this.hasPermissionSelected()) {
-      Swal.fire('Error', 'At least one permission is required.', 'error');
-      return;
-    }
-  
-    this.newUser.permissions = this.selectHighestPermission();
-    this.http.put<any>(`https://localhost:7206/api/Users/${this.newUser.id}`, this.newUser).subscribe(response => {
-      this.closeModal();
-      this.loadUsers();
-  
-      // Show success message
-      Swal.fire('Success', 'User has been edited successfully.', 'success');
-    });
+  if (this.newUser.password !== this.newUser.confirmPassword) {
+    Swal.fire('Error', 'Passwords do not match', 'error');
+    return;
   }
+  
+  if (!this.hasPermissionSelected()) {
+    Swal.fire('Error', 'At least one permission is required.', 'error');
+    return;
+  }
+
+  this.newUser.permissions = this.selectHighestPermission();
+  this.apiService.addUser(this.newUser).subscribe(response => {
+    this.closeModal();
+    this.loadUsers();
+    
+    // Show success message
+    Swal.fire('Success', 'User has been added successfully.', 'success');
+  });
+}
+
+// Edit User
+editUser(): void {
+  if (!this.newUser.username || !this.newUser.password || !this.newUser.confirmPassword || !this.newUser.roleId) {
+    Swal.fire('Error', 'Please fill in all required fields.', 'error');
+    return;
+  }
+
+  if (this.newUser.password !== this.newUser.confirmPassword) {
+    Swal.fire('Error', 'Passwords do not match', 'error');
+    return;
+  }
+
+  if (!this.hasPermissionSelected()) {
+    Swal.fire('Error', 'At least one permission is required.', 'error');
+    return;
+  }
+
+  this.newUser.permissions = this.selectHighestPermission();
+  this.apiService.editUser(this.newUser.id, this.newUser).subscribe(response => {
+    this.closeModal();
+    this.loadUsers();
+    
+    // Show success message
+    Swal.fire('Success', 'User has been edited successfully.', 'success');
+  });
+}
   
 
   // save (or edit) user
